@@ -36,6 +36,8 @@ mender_update_fstab_file() {
 
     mkdir -p ${IMAGE_ROOTFS}/data
     printf "%-20s %-20s %-10s %-21s %-2s %s\n" ${MENDER_DATA_PART} /data ${MENDER_DATA_PART_FSTYPE} defaults 0 0 >> ${IMAGE_ROOTFS}${sysconfdir}/fstab
+    mkdir -p ${IMAGE_ROOTFS}/media/sdcard
+    printf "%-20s %-20s %-10s %-21s %-2s %s\n" ${MENDER_SDDATA_PART} /media/sdcard ${MENDER_SDDATA_PART_FSTYPE} defaults 0 0 >> ${IMAGE_ROOTFS}${sysconfdir}/fstab
 }
 
 # Setup state script version file.
@@ -48,6 +50,7 @@ mender_create_scripts_version_file() {
 }
 
 IMAGE_ROOTFS_EXCLUDE_PATH_append_mender-image = " data/"
+IMAGE_ROOTFS_EXCLUDE_PATH_append_mender-image = " media/sdcard/"
 
 
 ################################################################################

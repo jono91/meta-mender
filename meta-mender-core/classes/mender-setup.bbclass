@@ -44,7 +44,11 @@ MENDER_ROOTFS_PART_B_NAME_DEFAULT = "${MENDER_ROOTFS_PART_B}"
 
 # The partition number holding the data partition.
 MENDER_DATA_PART ??= "${MENDER_DATA_PART_DEFAULT}"
-MENDER_DATA_PART_DEFAULT = "${MENDER_STORAGE_DEVICE_BASE}${@bb.utils.contains('MENDER_BOOT_PART_SIZE_MB', '0', '3', '4', d)}"
+MENDER_DATA_PART_DEFAULT = "${MENDER_STORAGE_DEVICE_BASE}${@mender_get_data_part_num(d)}"
+
+# The partition number holding the sddata partition
+MENDER_SDDATA_PART ??= "${MENDER_SDDATA_PART_DEFAULT}"
+MENDER_SDDATA_PART_DEFAULT = "${MENDER_STORAGE_DEVICE_BASE}${@mender_get_sddata_part_num(d)}"
 
 # The name of of the MTD part holding your UBI volumes.
 MENDER_MTD_UBI_DEVICE_NAME ??= "${MENDER_MTD_UBI_DEVICE_NAME_DEFAULT}"
@@ -57,6 +61,8 @@ MENDER_DATA_PART_FSTYPE ??= "${MENDER_DATA_PART_FSTYPE_DEFAULT}"
 MENDER_DATA_PART_FSTYPE_DEFAULT = "auto"
 MENDER_BOOT_PART_FSTYPE ??= "${MENDER_BOOT_PART_FSTYPE_DEFAULT}"
 MENDER_BOOT_PART_FSTYPE_DEFAULT = "auto"
+MENDER_SDDATA_PART_FSTYPE ??= "${MENDER_DATA_PART_FSTYPE_DEFAULT}"
+MENDER_SDDATA_PART_FSTYPE_DEFAULT = "auto"
 
 # Device type of device when making an initial partitioned image.
 MENDER_DEVICE_TYPE ??= "${MENDER_DEVICE_TYPE_DEFAULT}"
@@ -84,6 +90,10 @@ MENDER_STORAGE_TOTAL_SIZE_MB_DEFAULT ?= "1024"
 # Size of the data partition, which is preserved across updates.
 MENDER_DATA_PART_SIZE_MB ??= "${MENDER_DATA_PART_SIZE_MB_DEFAULT}"
 MENDER_DATA_PART_SIZE_MB_DEFAULT = "128"
+
+# Size of the emulated ext sdcard partition, which is preserved across updates.
+MENDER_SDDATA_PART_SIZE_MB ??= "${MENDER_SDDATA_PART_SIZE_MB_DEFAULT}"
+MENDER_SDDATA_PART_SIZE_MB_DEFAULT = "128"
 
 # Size of the first (FAT) partition, that contains the bootloader
 MENDER_BOOT_PART_SIZE_MB ??= "${MENDER_BOOT_PART_SIZE_MB_DEFAULT}"

@@ -8,6 +8,7 @@
 #    part3: second rootfs, inactive, mirror of first,
 #           available as failsafe for when some update fails
 #    part4: persistent data partition
+#    part5: emulated external sdcard application data partition
 
 python() {
     deprecated_vars = ['SDIMG_DATA_PART_DIR', 'SDIMG_DATA_PART_SIZE_MB',
@@ -123,6 +124,7 @@ EOF
 part --source rootfs --ondisk "$ondisk_dev" --fstype=${ARTIFACTIMG_FSTYPE} --label primary --align $alignment_kb --fixed-size ${MENDER_CALC_ROOTFS_SIZE}k $exclude_path_options
 part --source rootfs --ondisk "$ondisk_dev" --fstype=${ARTIFACTIMG_FSTYPE} --label secondary --align $alignment_kb --fixed-size ${MENDER_CALC_ROOTFS_SIZE}k $exclude_path_options
 part --source rootfs --rootfs-dir ${IMAGE_ROOTFS}/data --ondisk "$ondisk_dev" --fstype=${ARTIFACTIMG_FSTYPE} --label data --align $alignment_kb --fixed-size ${MENDER_DATA_PART_SIZE_MB}
+part --source rootfs --rootfs-dir ${IMAGE_ROOTFS}/media/sdcard --ondisk "$ondisk_dev" --fstype=${ARTIFACTIMG_FSTYPE} --label data --align $alignment_kb --fixed-size ${MENDER_SDDATA_PART_SIZE_MB}
 bootloader --ptable $part_type
 EOF
 
